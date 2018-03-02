@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import lodash from 'lodash';
+import { View, Text, ScrollView, TouchableWithoutFeedback } from 'react-native';
 import { Button } from 'react-native-elements';
 import Header from './components/header';
 import VodList from './components/vod-list';
@@ -62,28 +63,47 @@ const vodList = [
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { vodList };
+    this.state = { vodList, isMenuVodListVisible:false, isMenuStartVodVisible:false, currentVod: {} };
   }
-  onPressButton = () => {
-    //this.setState({ myText: 'Stream lancé'});
-    // <Text>{this.state.myText}</Text> a placer dans le render
-    console.log('En attente');
-  }
-
-  affichageMenuVod = vodContent => {
-    console.log('Appuie sur la tache', vodContent);
-  }
-
   
+
+  toogleMenuVodVisiblity = vod => {
+    let currentVod = vod;
+    if (this.setState.isMenuVodListVisible) {
+      currentVod = {};
+    }
+    this.setState({ isMenuVodListVisible: !this.state.isMenuVodListVisible,
+    currentVod
+    });
+  }
+
+  deleteCurrentVod = () => {
+    const index = lodash.findIndex(this.state.vodList, {
+      id: this.state.currentVod.id
+    });
+
+    const list = this.state.vodList;
+    list.splice(index, 1);
+    this.setState({ vodList: list, currentVod: {} });
+    this.toogleMenuVodVisiblity();
+  };
+
   render() {
     return (
       <View style={{ flex: 1 }}>
         <Header content="Listes des VOD" />
-        <Button title="Démarrer une VOD" onPress={this.onPressButton} />
+        <Button title="Démarrer une VOD" />
         <ScrollView>
-          <VodList onPressCallback={this.affichageMenuVod} vodList={this.state.vodList} />
+          <VodList 
+            onPressCallback={this.toogleMenuVodVisiblity} 
+            vodList={this.state.vodList} 
+            />
         </ScrollView>
-        <MenuVod />
+          <MenuVod 
+            isVisible={this.state.isMenuVodListVisible} 
+            onDisapearCallBack={this.toogleMenuVodVisiblity} 
+            onDeleteCallBack={this.deleteCurrentVod}
+          />
       </View>
     );
   }

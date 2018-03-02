@@ -5,5 +5,7 @@ export const APP_COLORS = {
     blanc: '#ffffff',
     noir: '#000000',
     vert: '#006400',
-    rouge: '#ED0000'
+    rouge: '#ED0000',
+    bleu: '#4c4cff',
+    gris: '#C0C0C0'
 };

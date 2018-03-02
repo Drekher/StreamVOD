@@ -1,35 +1,46 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableWithoutFeedback } from 'react-native';
 import { Button } from 'react-native-elements';
 import Modal from 'react-native-modal';
 import { style } from './style';
 
-const MenuVod = () => (
-<View>
-    <Modal 
-        isVisible
-        animationIn={'zoomInDown'}
-        animationOut={'zoomOutup'}
-        animationInTiming={1000}
-        animationOutTiming={1000}
-        backdropTransitionInTiming={1000}
-        backdropTransitionOutTiming={1000}
-    />
+const MenuVod = ({ isVisible, onDisapearCallBack, onDeleteCallBack }) => (
+            <Modal 
+                isVisible={isVisible} 
+                animationIn={'zoomInDown'} 
+                animationOut={'zoomOutUp'} 
+                animationInTiming={1000} 
+                animationOutTiming={1000} 
+                backdropTransitionInTiming={1000} 
+                backdropTransitionOutTiming={1000}
+            >
 
-    <View>
-        <Text>Que souhaitez vous faire sur cette VOD </Text>
-    </View>
-    <View>
-        <Button 
-        title="Supprimer"
-        onPress={() => console.log('onPress supprimer')}
-        />
-        <Button 
-        title="Changer status"
-        onPress={() => console.log('onPress mise à jour')}
-        />
-    </View>
-</View>
+        
+            <TouchableWithoutFeedback onPress={() => console.log('reste')}>
+                <View style={style.modal}>
+                    <View style={style.textView}>
+                        <Text>Que souhaitez vous faire sur cette VOD </Text>
+                    </View>
+                    <View>
+                        <Button 
+                        buttonStyle={style.buttonChangeStatus}
+                        title="Changer status"
+                        onPress={() => onDisapearCallBack()}
+                        />
+                        <Button 
+                        buttonStyle={style.buttonDeleteVod}
+                        title="Supprimer"
+                        onPress={() => onDeleteCallBack()}
+                        />
+                        <Button 
+                        buttonStyle={style.buttonCancel}
+                        title="Annuler"
+                        onPress={() => console.log('Annulation')}
+                        />
+                    </View>
+                </View>
+            </TouchableWithoutFeedback>
+        </Modal>
 );
 
 export default MenuVod;

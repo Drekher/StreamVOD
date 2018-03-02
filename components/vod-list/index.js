@@ -10,7 +10,7 @@ const VodList = ({ vodList, onPressCallback }) => (
            <ListItem 
            key={vod.id} 
            title={vod.content}
-           onPress={() => onPressCallback(vod.content)}
+           onPress={() => onPressCallback(vod)}
            badge={{
                 element: (
                     <Badge 
