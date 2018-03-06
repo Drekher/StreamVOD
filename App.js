@@ -5,6 +5,7 @@ import { Button } from 'react-native-elements';
 import Header from './components/header';
 import VodList from './components/vod-list';
 import MenuVod from './components/menu-vod';
+import { VOD } from './components/model';
 
 const vodList = [
     {
@@ -88,6 +89,29 @@ export default class App extends React.Component {
     this.toogleMenuVodVisiblity();
   };
 
+  toogleVodStatus = () => {
+    const updatedVOD = this.state.currentVod;
+    updatedVOD.alerte = this.state.currentVod.alerte === VOD.finished 
+    ? VOD.inProgress 
+    : VOD.finished;
+
+    const index = lodash.findIndex(this.state.vodList, {
+      id: this.state.currentVod.id
+    });
+
+    const updatedVodList = this.state.vodList;
+    updatedVodList[index] = updatedVOD;
+    this.setState({
+      vodList: updatedVodList, 
+      isMenuVodListVisible: false,
+       currentVod: {} 
+      });
+  };
+  
+  cancelButton = () => {
+    this.setState({ isMenuVodListVisible: !this.state.isMenuVodListVisible });
+  };
+
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -103,6 +127,8 @@ export default class App extends React.Component {
             isVisible={this.state.isMenuVodListVisible} 
             onDisapearCallBack={this.toogleMenuVodVisiblity} 
             onDeleteCallBack={this.deleteCurrentVod}
+            onChangeStatutCallBack={this.toogleVodStatus}
+            onCancelCallBack={this.cancelButton}
           />
       </View>
     );

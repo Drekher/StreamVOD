@@ -4,7 +4,7 @@ import { Button } from 'react-native-elements';
 import Modal from 'react-native-modal';
 import { style } from './style';
 
-const MenuVod = ({ isVisible, onDisapearCallBack, onDeleteCallBack }) => (
+const MenuVod = ({ isVisible, onDeleteCallBack, onChangeStatutCallBack, onCancelCallBack }) => (
             <Modal 
                 isVisible={isVisible} 
                 animationIn={'zoomInDown'} 
@@ -25,7 +25,7 @@ const MenuVod = ({ isVisible, onDisapearCallBack, onDeleteCallBack }) => (
                         <Button 
                         buttonStyle={style.buttonChangeStatus}
                         title="Changer status"
-                        onPress={() => onDisapearCallBack()}
+                        onPress={() => onChangeStatutCallBack()}
                         />
                         <Button 
                         buttonStyle={style.buttonDeleteVod}
@@ -35,7 +35,7 @@ const MenuVod = ({ isVisible, onDisapearCallBack, onDeleteCallBack }) => (
                         <Button 
                         buttonStyle={style.buttonCancel}
                         title="Annuler"
-                        onPress={() => console.log('Annulation')}
+                        onPress={() => onCancelCallBack()}
                         />
                     </View>
                 </View>
