@@ -1,70 +1,18 @@
 import React from 'react';
 import lodash from 'lodash';
 import { View, Text, ScrollView, TouchableWithoutFeedback } from 'react-native';
+import RNCalendarEvents from 'react-native-calendar-events';
 import { Button } from 'react-native-elements';
 import Header from './components/header';
 import VodList from './components/vod-list';
 import MenuVod from './components/menu-vod';
 import { VOD } from './components/model';
 
-const vodList = [
-    {
-      id: 0,
-      content: 'VOD du 17/02/2018 à 17h32',
-      alerte: 'Terminée'
-    },
-
-    {
-      id: 1,
-      content: 'VOD du 17/02/2018 à 18h14',
-      alerte: 'En cours'
-    },
-
-    {
-      id: 2,
-      content: 'VOD du 17/02/2018 à 19h07',
-      alerte: 'En cours'
-    },
-    {
-      id: 3,
-      content: 'VOD du 20/02/2018 à 13h32',
-      alerte: 'Terminée'
-    },
-
-    {
-      id: 4,
-      content: 'VOD du 20/02/2018 à 14h14',
-      alerte: 'En cours'
-    },
-
-    {
-      id: 5,
-      content: 'VOD du 20/02/2018 à 15h07',
-      alerte: 'En cours'
-    },
-    {
-      id: 6,
-      content: 'VOD du 20/02/2018 à 13h32',
-      alerte: 'En cours'
-    },
-
-    {
-      id: 7,
-      content: 'VOD du 20/02/2018 à 14h14',
-      alerte: 'Terminée'
-    },
-
-    {
-      id: 8,
-      content: 'VOD du 20/02/2018 à 15h07',
-      alerte: 'En cours'
-    }
-  ];
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { vodList, isMenuVodListVisible:false, isMenuStartVodVisible:false, currentVod: {} };
+    this.state = { vodList: [], isMenuVodListVisible:false, isMenuStartVodVisible:false, currentVod: {}, idGenerator: 0 };
   }
   
 
@@ -112,11 +60,28 @@ export default class App extends React.Component {
     this.setState({ isMenuVodListVisible: !this.state.isMenuVodListVisible });
   };
 
+  addVod = () => {
+    let alea = Math.floor((Date.now() / 100));
+    let nameVOD = 'VOD' + alea;
+    const newVod = {
+      id: this.state.idGenerator,
+      content: nameVOD,
+      alerte: 'En cours'
+    }
+    console.log(nameVOD);
+    this.setState({ vodList: [...this.state.vodList, newVod], idGenerator: this.state.idGenerator + 1 }); // Eclate le tableau et ajoute l'objet VOD.
+    
+  };
+  
+
   render() {
     return (
       <View style={{ flex: 1 }}>
         <Header content="Listes des VOD" />
-        <Button title="Démarrer une VOD" />
+        <Button 
+          title="Nouvelle VOD"
+          onPress={this.addVod}
+        />
         <ScrollView>
           <VodList 
             onPressCallback={this.toogleMenuVodVisiblity} 
